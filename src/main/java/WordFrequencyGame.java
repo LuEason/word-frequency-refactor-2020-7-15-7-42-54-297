@@ -1,8 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.StringJoiner;
+import java.util.*;
 
 public class WordFrequencyGame {
 
@@ -19,31 +15,23 @@ public class WordFrequencyGame {
         } else {
 
             try {
-
-                String[] words = sentence.split(SPACE_PATTERN);
-
-                List<WordInfo> wordInfos = new ArrayList<>();
-                for (String word : words) {
-                    WordInfo wordInfo = new WordInfo(word, 1);
-                    wordInfos.add(wordInfo);
-                }
-
-                Map<String, List<WordInfo>> wordInfoMap =getListMap(wordInfos);
-
-                List<WordInfo> list = new ArrayList<>();
-                for (Map.Entry<String, List<WordInfo>> entry : wordInfoMap.entrySet()) {
-                    WordInfo input = new WordInfo(entry.getKey(), entry.getValue().size());
-                    list.add(input);
-                }
-                wordInfos = list;
-
-                wordInfos.sort((firstWordInfo, secondWordInfo) -> secondWordInfo.getWordCount() - firstWordInfo.getWordCount());
-
+                List<WordInfo> wordInfos = getSortedWordInfos(sentence);
                 return spliceResult(wordInfos);
             } catch (Exception e) {
                 return CALCULATE_ERROR;
             }
         }
+    }
+
+    private List<WordInfo> getSortedWordInfos(String sentence) {
+        List<String> words = Arrays.asList(sentence.split(SPACE_PATTERN));
+        List<WordInfo> wordInfos = new ArrayList<>();
+        for (String uniqueWord : new HashSet<>(words)) {
+            int count = (int) words.stream().filter(uniqueWord::equals).count();
+            wordInfos.add(new WordInfo(uniqueWord, count));
+        }
+        wordInfos.sort((firstWordInfo, secondWordInfo) -> secondWordInfo.getWordCount() - firstWordInfo.getWordCount());
+        return wordInfos;
     }
 
     private String spliceResult(List<WordInfo> wordInfos) {
