@@ -8,9 +8,7 @@ public class WordFrequencyGame {
     private static final String CALCULATE_ERROR = "Calculate Error";
 
     public String getResult(String sentence) {
-
-
-        if (sentence.split(SPACE_PATTERN).length==1) {
+        if (sentence.split(SPACE_PATTERN).length == 1) {
             return sentence + " 1";
         } else {
 
@@ -37,7 +35,7 @@ public class WordFrequencyGame {
     private String spliceResult(List<WordInfo> wordInfos) {
         StringJoiner joiner = new StringJoiner(NEW_LINE_DELIMITER);
         for (WordInfo wordInfo : wordInfos) {
-            String oneLine = wordInfo.getWord() + SPACE +wordInfo.getWordCount();
+            String oneLine = wordInfo.getWord() + SPACE + wordInfo.getWordCount();
             joiner.add(oneLine);
         }
         return joiner.toString();
